@@ -9,9 +9,9 @@ pip install -r requirements.txt
 - Создайте файл с переменными окружения ".env" рядом с main.py и запишите туда данные в таком формате: ПЕРЕМЕННАЯ=значение.
 
 Переменные окружения:
-- BOT_TOKEN - токен телеграм бота, инструкция по созданию бота: https://medium.com/spidernitt/how-to-create-your-own-telegram-bot-63d1097999b6
-- API_KEY - токен сайта dvmn.org: https://dvmn.org/api/docs/
-- YOUR_ID - Ваш id в телеграмме, для получения id напишите боту по ссылке: https://telegram.me/userinfobot
+- TELEGRAM_TOKEN - токен телеграм бота, инструкция по созданию бота: https://medium.com/spidernitt/how-to-create-your-own-telegram-bot-63d1097999b6
+- DEVMAN_API_KEY - токен сайта dvmn.org: https://dvmn.org/api/docs/
+- YOUR_TELEGRAM_ID - Ваш id в телеграмме, для получения id напишите боту по ссылке: https://telegram.me/userinfobot
 
 
 Запуск бота с id указанным в переменной окружения:
