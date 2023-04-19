@@ -25,17 +25,17 @@ def main():
             decoded_response = response.json()
             if decoded_response['status'] == 'found':
                 params['timestamp'] = decoded_response['last_attempt_timestamp']
-            if decoded_response['new_attempts'][0]['is_negative']:
-                bot.send_message(
-                    text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
-                         f'К сожалению в работе нашлись ошибки. Ссылка на работу'
-                         f' {decoded_response["new_attempts"][0]["lesson_url"]}',
-                    chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
-            else:
-                bot.send_message(
-                    text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
-                         f'Работа принята! Ссылка на работу {decoded_response["new_attempts"][0]["lesson_url"]}',
-                    chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
+                if decoded_response['new_attempts'][0]['is_negative']:
+                    bot.send_message(
+                        text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
+                             f'К сожалению в работе нашлись ошибки. Ссылка на работу'
+                             f' {decoded_response["new_attempts"][0]["lesson_url"]}',
+                        chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
+                else:
+                    bot.send_message(
+                        text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
+                             f'Работа принята! Ссылка на работу {decoded_response["new_attempts"][0]["lesson_url"]}',
+                        chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
         except requests.exceptions.ReadTimeout:
             print('Превышено время ожидания ответа от сервера')
             continue
