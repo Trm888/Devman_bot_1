@@ -1,4 +1,5 @@
 import argparse
+import time
 
 import requests
 import telegram
@@ -23,7 +24,6 @@ def main():
             response.raise_for_status()
             decoded_response = response.json()
             params['timestamp'] = decoded_response['last_attempt_timestamp']
-
             if decoded_response['new_attempts'][0]['is_negative']:
                 bot.send_message(
                     text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
@@ -40,6 +40,7 @@ def main():
             continue
         except requests.exceptions.ConnectionError:
             print('Ошибка соединения с сервером')
+            time.sleep(3)
             continue
 
 
