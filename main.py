@@ -22,20 +22,20 @@ def main():
         try:
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
-            serializable_response = response.json()
-            params['timestamp'] = serializable_response['last_attempt_timestamp']
+            decoded_response = response.json()
+            params['timestamp'] = decoded_response['last_attempt_timestamp']
             pprint(response.json())
 
-            if serializable_response['new_attempts'][0]['is_negative']:
+            if decoded_response['new_attempts'][0]['is_negative']:
                 bot.send_message(
-                    text=f'У вас проверили работу <b>"{serializable_response["new_attempts"][0]["lesson_title"]}"</b>\n'
+                    text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
                          f'К сожалению в работе нашлись ошибки. Ссылка на работу'
-                         f' {serializable_response["new_attempts"][0]["lesson_url"]}',
+                         f' {decoded_response["new_attempts"][0]["lesson_url"]}',
                     chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
             else:
                 bot.send_message(
-                    text=f'У вас проверили работу <b>"{serializable_response["new_attempts"][0]["lesson_title"]}"</b>\n'
-                         f'Работа принята! Ссылка на работу {serializable_response["new_attempts"][0]["lesson_url"]}',
+                    text=f'У вас проверили работу <b>"{decoded_response["new_attempts"][0]["lesson_title"]}"</b>\n'
+                         f'Работа принята! Ссылка на работу {decoded_response["new_attempts"][0]["lesson_url"]}',
                     chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
         except requests.exceptions.ReadTimeout:
             print('Превышено время ожидания ответа от сервера')
