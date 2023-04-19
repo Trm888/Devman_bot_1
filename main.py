@@ -1,5 +1,4 @@
 import argparse
-from pprint import pprint
 
 import requests
 import telegram
@@ -24,7 +23,6 @@ def main():
             response.raise_for_status()
             decoded_response = response.json()
             params['timestamp'] = decoded_response['last_attempt_timestamp']
-            pprint(response.json())
 
             if decoded_response['new_attempts'][0]['is_negative']:
                 bot.send_message(
