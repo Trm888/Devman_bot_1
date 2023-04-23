@@ -14,7 +14,7 @@ def main():
     url = 'https://dvmn.org/api/long_polling/'
     headers = {'Authorization': f'Token {api_key}'}
     params = {'timestamp': ''}
-    chat_id = env.int('YOUR_TELEGRAM_ID')
+    chat_id = env.int('TELEGRAM_CHAT_ID')
     parser = argparse.ArgumentParser()
     parser.add_argument('--id', help='Укажите ваш id', type=int, default=chat_id)
     bot = telegram.Bot(token=bot_token)
