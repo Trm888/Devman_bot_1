@@ -1,4 +1,5 @@
 import argparse
+import logging
 import time
 
 import requests
@@ -7,6 +8,13 @@ from environs import Env
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug('Start')
+    logging.info('info')
+    logging.warning('warning')
+    logging.error('error')
+    logging.critical('critical')
+
     env = Env()
     env.read_env()
     api_key = env.str('DEVMAN_API_KEY')
