@@ -1,6 +1,7 @@
 import argparse
 import logging
 import time
+import traceback
 from logging.handlers import RotatingFileHandler
 
 import requests
@@ -32,7 +33,7 @@ def main():
     parser.add_argument('--id', help='Укажите ваш id', type=int, default=chat_id)
     bot = telegram.Bot(token=bot_token)
 
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger(__file__)
     logger.setLevel(logging.DEBUG)
 
     # file_handler = RotatingFileHandler('/opt/Devman_bot_1/bot.log', maxBytes=200, backupCount=2)
@@ -48,6 +49,8 @@ def main():
 
     while True:
         try:
+            x = 10 / 0
+            time.sleep(2)
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
             review_information = response.json()
@@ -69,11 +72,11 @@ def main():
             logger.info('Превышено время ожидания ответа от сервера')
             continue
         except requests.exceptions.ConnectionError:
-            logger.error('Ошибка соединения с сервером')
+            logger.info('Ошибка соединения с сервером')
             time.sleep(3)
             continue
         except Exception as error:
-            logger.error(f'Бот упал с ошибкой: {type(error).__name__}')
+            logger.error(f'Бот упал с ошибкой: {type(error).__name__} - {str(error)}\n{traceback.format_exc()}')
             continue
 
 
