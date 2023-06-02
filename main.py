@@ -1,23 +1,25 @@
 import argparse
 import logging
 import time
+from logging.handlers import RotatingFileHandler
 
 import requests
 import telegram
 from environs import Env
 
 
-def main():
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        filename='/opt/Devman_bot_1/bot.log')
-    logger = logging.getLogger(__name__)
-    logger.info('INFO')
-    logger.debug('DEBUG')
-    logger.warning('WARNING')
-    logger.error('ERROR')
-    logger.critical('CRITICAL')
+class TelegramLogsHandler(logging.Handler):
+    def __init__(self, bot, chat_id):
+        super().__init__()
+        self.bot = bot
+        self.chat_id = chat_id
 
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+
+def main():
     env = Env()
     env.read_env()
     api_key = env.str('DEVMAN_API_KEY')
@@ -29,6 +31,21 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--id', help='Укажите ваш id', type=int, default=chat_id)
     bot = telegram.Bot(token=bot_token)
+
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+    # file_handler = RotatingFileHandler('/opt/Devman_bot_1/bot.log', maxBytes=200, backupCount=2)
+    file_handler = RotatingFileHandler('bot.log', maxBytes=200000, backupCount=2)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    logger.addHandler(file_handler)
+
+    telegram_handler = TelegramLogsHandler(bot, chat_id)
+    telegram_handler.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+    logger.addHandler(telegram_handler)
+
+    logger.info('Бот запущен')
+
     while True:
         try:
             response = requests.get(url, headers=headers, params=params)
@@ -47,12 +64,16 @@ def main():
                         text=f'У вас проверили работу <b>"{review_information["new_attempts"][0]["lesson_title"]}"</b>\n'
                              f'Работа принята! Ссылка на работу {review_information["new_attempts"][0]["lesson_url"]}',
                         chat_id=chat_id, parse_mode=telegram.ParseMode.HTML)
+
         except requests.exceptions.ReadTimeout:
-            print('Превышено время ожидания ответа от сервера')
+            logger.info('Превышено время ожидания ответа от сервера')
             continue
         except requests.exceptions.ConnectionError:
-            print('Ошибка соединения с сервером')
+            logger.error('Ошибка соединения с сервером')
             time.sleep(3)
+            continue
+        except Exception as error:
+            logger.error(f'Бот упал с ошибкой: {type(error).__name__}')
             continue
 
 
