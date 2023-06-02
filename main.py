@@ -10,7 +10,7 @@ from environs import Env
 def main():
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        filename='bot.log')
+                        filename='opt/Devman_bot_1/bot.log')
     logger = logging.getLogger(__name__)
     logger.info('INFO')
 
