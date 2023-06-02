@@ -13,6 +13,10 @@ def main():
                         filename='opt/Devman_bot_1/bot.log')
     logger = logging.getLogger(__name__)
     logger.info('INFO')
+    logger.debug('DEBUG')
+    logger.warning('WARNING')
+    logger.error('ERROR')
+    logger.critical('CRITICAL')
 
     env = Env()
     env.read_env()
