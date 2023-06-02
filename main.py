@@ -8,12 +8,11 @@ from environs import Env
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
-    logging.debug('Start')
-    logging.info('info')
-    logging.warning('warning')
-    logging.error('error')
-    logging.critical('critical')
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        filename='bot.log')
+    logger = logging.getLogger(__name__)
+    logger.info('INFO')
 
     env = Env()
     env.read_env()
