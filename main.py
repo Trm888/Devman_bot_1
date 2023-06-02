@@ -49,8 +49,6 @@ def main():
 
     while True:
         try:
-            x = 10 / 0
-            time.sleep(2)
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
             review_information = response.json()
@@ -73,7 +71,7 @@ def main():
             continue
         except requests.exceptions.ConnectionError:
             logger.info('Ошибка соединения с сервером')
-            time.sleep(3)
+            time.sleep(5)
             continue
         except Exception as error:
             logger.error(f'Бот упал с ошибкой: {type(error).__name__} - {str(error)}\n{traceback.format_exc()}')
