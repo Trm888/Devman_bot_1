@@ -37,7 +37,6 @@ def main():
 
     logger.setLevel(logging.DEBUG)
 
-    # file_handler = RotatingFileHandler('/opt/Devman_bot_1/bot.log', maxBytes=200, backupCount=2)
     file_handler = RotatingFileHandler('bot.log', maxBytes=200000, backupCount=2)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logger.addHandler(file_handler)
