@@ -8,6 +8,8 @@ import requests
 import telegram
 from environs import Env
 
+logger = logging.getLogger(__file__)
+
 
 class TelegramLogsHandler(logging.Handler):
     def __init__(self, bot, chat_id):
@@ -33,7 +35,6 @@ def main():
     parser.add_argument('--id', help='Укажите ваш id', type=int, default=chat_id)
     bot = telegram.Bot(token=bot_token)
 
-    logger = logging.getLogger(__file__)
     logger.setLevel(logging.DEBUG)
 
     # file_handler = RotatingFileHandler('/opt/Devman_bot_1/bot.log', maxBytes=200, backupCount=2)
