@@ -49,7 +49,6 @@ def main():
 
     while True:
         try:
-            x = 10 / 0
             time.sleep(5)
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
