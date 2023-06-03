@@ -50,6 +50,8 @@ def main():
 
     while True:
         try:
+            x = 10 / 0
+            time.sleep(5)
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
             review_information = response.json()
@@ -75,7 +77,7 @@ def main():
             time.sleep(5)
             continue
         except Exception as error:
-            logger.error(f'Бот упал с ошибкой: {type(error).__name__} - {str(error)}\n{traceback.format_exc()}')
+            logger.exception(f'Бот упал с ошибкой: {error}')
             continue
 
 
