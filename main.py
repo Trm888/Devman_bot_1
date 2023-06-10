@@ -1,7 +1,6 @@
 import argparse
 import logging
 import time
-import traceback
 from logging.handlers import RotatingFileHandler
 
 import requests
